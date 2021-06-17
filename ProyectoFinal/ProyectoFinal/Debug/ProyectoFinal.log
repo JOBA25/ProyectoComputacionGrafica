@@ -1,0 +1,9 @@
+﻿  Main_proyectoFinal.cpp
+D:\todo\unam\carrera\Octavo Semestre\Compu grafica\Lab\Proyecto final\proyecto_computacion_grafica_lab\ProyectoFinal\ProyectoFinal\Main_proyectoFinal.cpp(399,24): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\todo\unam\carrera\Octavo Semestre\Compu grafica\Lab\Proyecto final\proyecto_computacion_grafica_lab\ProyectoFinal\ProyectoFinal\Main_proyectoFinal.cpp(752,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\todo\unam\carrera\Octavo Semestre\Compu grafica\Lab\Proyecto final\proyecto_computacion_grafica_lab\ProyectoFinal\ProyectoFinal\Main_proyectoFinal.cpp(753,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\todo\unam\carrera\Octavo Semestre\Compu grafica\Lab\Proyecto final\proyecto_computacion_grafica_lab\ProyectoFinal\ProyectoFinal\Main_proyectoFinal.cpp(757,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\todo\unam\carrera\Octavo Semestre\Compu grafica\Lab\Proyecto final\proyecto_computacion_grafica_lab\ProyectoFinal\ProyectoFinal\Main_proyectoFinal.cpp(758,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\todo\unam\carrera\Octavo Semestre\Compu grafica\Lab\Proyecto final\proyecto_computacion_grafica_lab\ProyectoFinal\ProyectoFinal\Main_proyectoFinal.cpp(760,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\todo\unam\carrera\Octavo Semestre\Compu grafica\Lab\Proyecto final\proyecto_computacion_grafica_lab\ProyectoFinal\ProyectoFinal\Main_proyectoFinal.cpp(761,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+  ProyectoFinal.vcxproj -> D:\todo\unam\carrera\Octavo Semestre\Compu grafica\Lab\Proyecto final\proyecto_computacion_grafica_lab\ProyectoFinal\Debug\ProyectoFinal.exe
