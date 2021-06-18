@@ -49,25 +49,29 @@ map_Kd sillon_rojo.jpg
 Ni 1.00
 newmtl lambert16SG
 illum 4
-Kd 0.21 0.15 0.10
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd madera_escritorio.jpg
 Ni 1.00
 newmtl pasted__lambert16SG
 illum 4
-Kd 0.21 0.15 0.10
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd madera_escritorio.jpg
 Ni 1.00
 newmtl pasted__pasted__lambert16SG
 illum 4
-Kd 0.21 0.15 0.10
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd madera_escritorio.jpg
 Ni 1.00
 newmtl pasted__pasted__pasted__lambert16SG
 illum 4
-Kd 0.21 0.15 0.10
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd madera_escritorio.jpg
 Ni 1.00

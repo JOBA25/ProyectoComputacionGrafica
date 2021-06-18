@@ -194,6 +194,7 @@ int main()
 	Model BrazoDer((char*)"Models/Personaje/brazoder.obj");
 	Model BrazoIzq((char*)"Models/Personaje/brazoizq.obj");*/
 	Model Hielera((char*)"Models/hielera/hielera.obj");
+	Model LavaManos((char*)"Models/lavamanos/lavamanos.obj");
 	// Build and compile our shader program
 
 	//Inicialización de KeyFrames
@@ -511,22 +512,26 @@ int main()
 
 
 		//Carga de modelo 
-		//Personaje
+		//hielera
+
 		view = camera.GetViewMatrix();
 		glm::mat4 model(1);
-		tmp = model = glm::translate(model, glm::vec3(0, 1, 0));
+		tmp = model = glm::translate(model, glm::vec3(50, 0, 0));
 		model = glm::translate(model,glm::vec3(posX,posY,posZ));
-		model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
+		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Hielera.Draw(lightingShader);
-		////Pierna Izq
-		//view = camera.GetViewMatrix();
-		//model = glm::translate(tmp, glm::vec3(-0.5f, 0.0f, -0.1f));
-		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		
+		//Lava Manos
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(tmp, glm::vec3(-20.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
 		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
 		//model = glm::rotate(model, glm::radians(-rotRodIzq), glm::vec3(1.0f, 0.0f, 0.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//PiernaDer.Draw(lightingShader);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		LavaManos.Draw(lightingShader);
+
 		////Pie Izq
 		//view = camera.GetViewMatrix();
 		//model = glm::translate(model, glm::vec3(0, -0.9f, -0.2f));
@@ -540,6 +545,8 @@ int main()
 		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
 		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		//PiernaIzq.Draw(lightingShader);
+
+
 		////Pie Der
 		//view = camera.GetViewMatrix();
 		//model = glm::translate(model, glm::vec3(0, -0.9f, -0.2f));

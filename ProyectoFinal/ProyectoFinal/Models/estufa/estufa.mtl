@@ -1,14 +1,16 @@
 newmtl initialShadingGroup
 illum 4
-Kd 0.21 0.22 0.22
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_generar_estufa.jpg
 Ni 1.00
 newmtl lambert2SG
 illum 4
-Kd 0.13 0.13 0.14
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
 Ni 1.00
 newmtl lambert3SG
 illum 4
@@ -18,51 +20,87 @@ Tf 1.00 1.00 1.00
 Ni 1.00
 newmtl lambert4SG
 illum 4
-Kd 0.15 0.15 0.15
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_estufa.jpg
 Ni 1.00
 newmtl lambert5SG
 illum 4
-Kd 0.11 0.12 0.15
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_estufa.jpg
 Ni 1.00
 newmtl lambert6SG
 illum 4
-Kd 0.18 0.18 0.18
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_generar_estufa.jpg
+Ni 1.00
+newmtl lambert7SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_estufa.jpg
+Ni 1.00
+newmtl lambert8SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
+newmtl lambert9SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
+newmtl lambert12SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_generar_estufa.jpg
 Ni 1.00
 newmtl pasted__lambert2SG
 illum 4
-Kd 0.13 0.13 0.14
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
 Ni 1.00
 newmtl pasted__lambert5SG
 illum 4
-Kd 0.09 0.09 0.12
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_estufa.jpg
 Ni 1.00
 newmtl pasted__lambert6SG
 illum 4
-Kd 0.18 0.18 0.18
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_generar_estufa.jpg
 Ni 1.00
 newmtl pasted__pasted__lambert2SG
 illum 4
-Kd 0.13 0.13 0.14
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
 Ni 1.00
 newmtl pasted__pasted__pasted__lambert2SG
 illum 4
-Kd 0.13 0.13 0.14
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
 Ni 1.00
 newmtl pasted__pasted__pasted__pasted__lambert2SG
 illum 4
@@ -78,7 +116,8 @@ Tf 1.00 1.00 1.00
 Ni 1.00
 newmtl pasted__pasted__pasted__pasted__pasted__pasted__lambert2SG
 illum 4
-Kd 0.13 0.13 0.14
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
 Ni 1.00
