@@ -56,28 +56,41 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 // Keyframes
-float posX =PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotRodIzq = 0;
+float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z;
+float rotPiernaIzqBmo = 0, rotPiernaDerBmo = 0, rotBrazoIzqBmo = 0, rotBrazoDerBmo = 0;
 
-#define MAX_FRAMES 9
+#define MAX_FRAMES_BMO 4 // 3 keyframes por extremidad
+
+
 int i_max_steps = 190;
 int i_curr_steps = 0;
 typedef struct _frame
 {
 	//Variables para GUARDAR Key Frames
-	float posX;		//Variable para PosicionX
-	float posY;		//Variable para PosicionY
-	float posZ;		//Variable para PosicionZ
-	float incX;		//Variable para IncrementoX
-	float incY;		//Variable para IncrementoY
-	float incZ;		//Variable para IncrementoZ
-	float rotRodIzq;
-	float rotInc;
+	//float posX;		//Variable para PosicionX
+	//float posY;		//Variable para PosicionY
+	//float posZ;		//Variable para PosicionZ
+	//float incX;		//Variable para IncrementoX
+	//float incY;		//Variable para IncrementoY
+	//float incZ;		//Variable para IncrementoZ
+	float rotPiernaIzqBmo;
+	float rotIncPiernaIzqBmo;
+
+	float rotPiernaDerBmo;
+	float rotIncPiernaDerBmo;
+	
+	float rotBrazoIzqBmo;
+	float rotIncBrazoIzqBmo;
+	
+	float rotBrazoDerBmo;
+	float rotIncBrazoDerBmo;
 
 }FRAME;
 
-FRAME KeyFrame[MAX_FRAMES];
-int FrameIndex = 0;			//introducir datos
-bool play = false;
+FRAME KeyFrameBMO[MAX_FRAMES_BMO];
+int playIndexBMO = 0;		//introducir datos
+int FrameIndexBMO = 0 ;
+bool playB = false;
 int playIndex = 0;
 
 // Positions of the point lights
@@ -91,42 +104,73 @@ glm::vec3 pointLightPositions[] = {
 glm::vec3 LightP1;
 
 
+//animación pato en bañera
+float patoX = 45.0;
+float patoZ = -34.0;
+float patoRot = 0.0;
+
+bool circuitoPato = false;
+bool recorrido1Pato = true;
+bool recorrido2Pato = false;
+
+//animación Caracol
+float caracolX = -29.0;
+float caracolZ = 51.0;
+float caracolRot = 0.0;
+
+bool circuitoCaracol = false;
+bool recorrido1Caracol = true;
+bool recorrido2Caracol = false;
+bool recorrido3Caracol = false;
+bool recorrido4Caracol = false;
+
+
+
 
 
 void saveFrame(void)
 {
+	KeyFrameBMO[0].rotPiernaIzqBmo = 0;
+	KeyFrameBMO[1].rotPiernaIzqBmo = 55;
+	KeyFrameBMO[2].rotPiernaIzqBmo = 26;
 
-	printf("frameindex %d\n", FrameIndex);
-	
-	KeyFrame[FrameIndex].posX = posX;
-	KeyFrame[FrameIndex].posY = posY;
-	KeyFrame[FrameIndex].posZ = posZ;
-	
-	KeyFrame[FrameIndex].rotRodIzq = rotRodIzq;
-	
+	KeyFrameBMO[0].rotPiernaDerBmo = 55;
+	KeyFrameBMO[1].rotPiernaDerBmo = 0;
+	KeyFrameBMO[2].rotPiernaDerBmo = 26;
 
-	FrameIndex++;
+	KeyFrameBMO[0].rotBrazoIzqBmo = 5;
+	KeyFrameBMO[1].rotBrazoIzqBmo = 40;
+	KeyFrameBMO[2].rotBrazoIzqBmo = 5;
+
+	KeyFrameBMO[0].rotBrazoDerBmo = 30;
+	KeyFrameBMO[1].rotBrazoDerBmo = -10;
+	KeyFrameBMO[2].rotBrazoDerBmo = 30;
+	
+	FrameIndexBMO = 3;
+	
 }
 
 void resetElements(void)
 {
-	posX = KeyFrame[0].posX;
-	posY = KeyFrame[0].posY;
-	posZ = KeyFrame[0].posZ;
+	rotPiernaIzqBmo = KeyFrameBMO[0].rotPiernaIzqBmo;
+	rotPiernaDerBmo = KeyFrameBMO[0].rotPiernaDerBmo;
+	rotBrazoIzqBmo = KeyFrameBMO[0].rotBrazoIzqBmo;
+	rotBrazoDerBmo = KeyFrameBMO[0].rotBrazoDerBmo;
 
-	rotRodIzq = KeyFrame[0].rotRodIzq;
 
 }
 
 void interpolation(void)
 {
 
-	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;
+	/*KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;
 	KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;
 	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;
-	
-	KeyFrame[playIndex].rotInc = (KeyFrame[playIndex + 1].rotRodIzq - KeyFrame[playIndex].rotRodIzq) / i_max_steps;
-
+	*/
+	KeyFrameBMO[playIndex].rotIncPiernaIzqBmo = (KeyFrameBMO[playIndex + 1].rotPiernaIzqBmo - KeyFrameBMO[playIndex].rotPiernaIzqBmo) / i_max_steps;
+	KeyFrameBMO[playIndex].rotIncPiernaDerBmo = (KeyFrameBMO[playIndex + 1].rotPiernaDerBmo - KeyFrameBMO[playIndex].rotPiernaDerBmo) / i_max_steps; 
+	KeyFrameBMO[playIndex].rotIncBrazoIzqBmo = (KeyFrameBMO[playIndex + 1].rotBrazoIzqBmo - KeyFrameBMO[playIndex].rotBrazoIzqBmo) / i_max_steps;
+	KeyFrameBMO[playIndex].rotIncBrazoDerBmo = (KeyFrameBMO[playIndex + 1].rotBrazoDerBmo - KeyFrameBMO[playIndex].rotBrazoDerBmo) / i_max_steps;
 }
 
 
@@ -187,26 +231,39 @@ int main()
 	Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
 	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
 
-	/*Model BotaDer((char*)"Models/Personaje/bota.obj");
-	Model PiernaDer((char*)"Models/Personaje/piernader.obj");
-	Model PiernaIzq((char*)"Models/Personaje/piernaizq.obj");
-	Model Torso((char*)"Models/Personaje/torso.obj");
-	Model BrazoDer((char*)"Models/Personaje/brazoder.obj");
-	Model BrazoIzq((char*)"Models/Personaje/brazoizq.obj");*/
+	//muebles
+	Model Fachada((char*)"Models/fachada/fachada.obj");
 	Model Hielera((char*)"Models/hielera/hielera.obj");
 	Model LavaManos((char*)"Models/lavamanos/lavamanos.obj");
+	Model Estufa((char*)"Models/estufa/estufa.obj");
+	Model Escritorio((char*)"Models/escritorio/escritorio.obj");
+	Model LavaPlatos((char*)"Models/lavaPlatos/lavaplatos.obj");
+	Model SillonCafe((char*)"Models/sillonCafe/sillonCafe.obj");
+	Model SillonRojo((char*)"Models/sillonRojo/sillonrojo.obj");
+	Model Wc((char*)"Models/wc/wc.obj");
+	Model TinaBaño((char*)"Models/tinaCortina/tina.obj");
+	Model CortinaBaño((char*)"Models/tinaCortina/cortina.obj");
+	//personajes
+	Model Pato((char*)"Models/pato/pato.obj");
+	Model Caracol((char*)"Models/caracol/caracol.obj");
+	Model BmoCuerpo((char*)"Models/bmo/cuerpo.obj");
+	Model BmoBrazoDerecho((char*)"Models/bmo/brazoDerecho.obj");
+	Model BmoBrazoIzquierdo((char*)"Models/bmo/brazoIzquierdo.obj");
+	//usaremos el mismo modelo ya que son iguales
+	Model BmoPierna((char*)"Models/bmo/pierna.obj");
+
 	// Build and compile our shader program
 
 	//Inicialización de KeyFrames
 	
-	for(int i=0; i<MAX_FRAMES; i++)
+	for(int i=0; i<MAX_FRAMES_BMO; i++)
 	{
-		KeyFrame[i].posX = 0;
+		/*KeyFrameBMO[i].posX = 0;
 		KeyFrame[i].incX = 0;
 		KeyFrame[i].incY = 0;
-		KeyFrame[i].incZ = 0;
-		KeyFrame[i].rotRodIzq = 0;
-		KeyFrame[i].rotInc = 0;
+		KeyFrame[i].incZ = 0;*/
+		KeyFrameBMO[i].rotPiernaIzqBmo = 0;
+		KeyFrameBMO[i].rotIncPiernaIzqBmo = 0;
 	}
 
 
@@ -426,7 +483,7 @@ int main()
 		// == ==========================
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.3f, 0.3f, 0.3f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.4f, 0.4f, 0.4f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.5f, 0.5f, 0.5f);
 
@@ -445,8 +502,8 @@ int main()
 		// Point light 2
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].position"), pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 1.0f, 1.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 1.0f, 1.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 1.0f, 1.0f, 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].quadratic"), 0.032f);
@@ -454,8 +511,8 @@ int main()
 		// Point light 3
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].position"), pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse"), 0.0f, 1.0f, 1.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].specular"), 0.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].specular"), 1.0f, 1.0f, 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].quadratic"), 0.032f);
@@ -463,8 +520,8 @@ int main()
 		// Point light 4
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].position"), pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse"), 1.0f, 0.0f, 1.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].specular"), 1.0f, 0.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].specular"), 1.0f, 1.0f, 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].quadratic"), 0.032f);
@@ -511,74 +568,178 @@ int main()
 
 
 
-		//Carga de modelo 
-		//hielera
 
 		view = camera.GetViewMatrix();
 		glm::mat4 model(1);
-		tmp = model = glm::translate(model, glm::vec3(50, 0, 0));
+		tmp = model = glm::translate(model, glm::vec3(0, 0, 0));
 		model = glm::translate(model,glm::vec3(posX,posY,posZ));
 		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Hielera.Draw(lightingShader);
-		
-		//Lava Manos
+		Fachada.Draw(lightingShader);
+
+
+		//Carga de modelo 
+		//hielera
+
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(-39.0f, 0.0f, 18.0f));
+		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		//model = glm::rotate(model, glm::radians(-54.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//Hielera.Draw(lightingShader);
+		//
+		//////escritorio
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(-32.0f, 0.0f, 45.0f));
+		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		////model = glm::rotate(model, glm::radians(-54.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//Escritorio.Draw(lightingShader);
+
+
+		//Sillón rojo
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
-		model = glm::translate(tmp, glm::vec3(-20.0f, 0.0f, 0.0f));
+		model = glm::translate(tmp, glm::vec3(-24.0f, 1.5f, -30.0f));
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
-		//model = glm::rotate(model, glm::radians(-rotRodIzq), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(27.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		LavaManos.Draw(lightingShader);
-
-		////Pie Izq
-		//view = camera.GetViewMatrix();
-		//model = glm::translate(model, glm::vec3(0, -0.9f, -0.2f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//BotaDer.Draw(lightingShader);
-
-		////Pierna Der
-		//view = camera.GetViewMatrix();
-		//model = glm::translate(tmp, glm::vec3(0.5f, 0.0f, -0.1f));
-		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//PiernaIzq.Draw(lightingShader);
+		SillonRojo.Draw(lightingShader);
 
 
-		////Pie Der
-		//view = camera.GetViewMatrix();
-		//model = glm::translate(model, glm::vec3(0, -0.9f, -0.2f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//BotaDer.Draw(lightingShader);
-
-		////Brazo derecho
+		////Estufa
 		//view = camera.GetViewMatrix();
 		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(0.0f, 1.0f, 53.0f));
 		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::translate(model, glm::vec3(-0.75f, 2.5f, 0));
+		//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//BrazoDer.Draw(lightingShader);
+		//Estufa.Draw(lightingShader);
 
-		////Brazo Izquierdo
+		////Sillón café
 		//view = camera.GetViewMatrix();
 		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(26.0f, 1.8f, 20.0f));
 		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::translate(model, glm::vec3(0.75f, 2.5f, 0));
+		//model = glm::rotate(model, glm::radians(190.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//BrazoIzq.Draw(lightingShader);
+		//SillonCafe.Draw(lightingShader);
 
-		////Cabeza
+		//////Lava Platos (tina con banco y barril con regadera)
 		//view = camera.GetViewMatrix();
 		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(19.0f, 1.0f, 47.0f));
 		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
-		//model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
+		//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//Cabeza.Draw(lightingShader);
+		//LavaPlatos.Draw(lightingShader);
+
+		//muebles del segundo cuarto (baño)
+
+		//Lava Manos
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(26.0f, -1.0f, -37.9f));
+		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//LavaManos.Draw(lightingShader);
+
+		//////WC
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(33.0f, 0.0f, -37.0f));
+		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		////model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//Wc.Draw(lightingShader);
+
+		//////Tina baño
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(45.0f, 0.5f, -29.0f));
+		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//TinaBaño.Draw(lightingShader);
+
+		//////Cortina baño
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);
+		//model = glm::translate(tmp, glm::vec3(45.0f, 0.5f, -29.0f));
+		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//CortinaBaño.Draw(lightingShader);
+
+		//
+		//////Pato de hule
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);								//-26
+		//model = glm::translate(tmp, glm::vec3(patoX, 2.6f, patoZ));
+		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		//model = glm::rotate(model, glm::radians(patoRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//Pato.Draw(lightingShader);
+
+		//caracol
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);								
+		model = glm::translate(tmp, glm::vec3(caracolX, 0.0f, caracolZ));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::rotate(model, glm::radians(caracolRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Caracol.Draw(lightingShader);
+		
+
+		//BMO 
+
+		//cuerpo
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		tmp = model = glm::translate(tmp, glm::vec3(-13.0f, 3.1f, -31.5f));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BmoCuerpo.Draw(lightingShader);
+
+		//brazo derecho
+		view = camera.GetViewMatrix();
+		model = glm::translate(tmp, glm::vec3(-0.6f, 0.33f, -0.55f));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::rotate(model, glm::radians(rotBrazoDerBmo), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BmoBrazoDerecho.Draw(lightingShader);
+
+		//brazo izquierdo
+		view = camera.GetViewMatrix();
+		model = glm::translate(tmp, glm::vec3(0.7f, 0.33f, -0.55f));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::rotate(model, glm::radians(rotBrazoIzqBmo), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BmoBrazoIzquierdo.Draw(lightingShader);
+
+		//pierna derecha
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(tmp, glm::vec3(-0.31f, 0.09f, -0.04f));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::rotate(model, glm::radians(rotPiernaDerBmo), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BmoPierna.Draw(lightingShader);
+
+		//pierna izquierda
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(tmp, glm::vec3(0.39f, 0.09f, -0.04f));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::rotate(model, glm::radians(rotPiernaIzqBmo), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BmoPierna.Draw(lightingShader);
+
+
 
 
 		glBindVertexArray(0);
@@ -631,6 +792,9 @@ int main()
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
+
+
+		saveFrame();
 	}
 
 
@@ -654,72 +818,153 @@ int main()
 
 void animacion()
 {
+	//movimiento del pato
+	if (circuitoPato) {
+		if (recorrido1Pato) {
+			patoZ += 0.05f;
+			
 
-		//Movimiento del personaje
-
-		if (play)
-		{
-			if (i_curr_steps >= i_max_steps) //end of animation between frames?
-			{
-				playIndex++;
-				if (playIndex>FrameIndex - 2)	//end of total animation?
-				{
-					printf("termina anim\n");
-					playIndex = 0;
-					play = false;
-				}
-				else //Next frame interpolations
-				{
-					i_curr_steps = 0; //Reset counter
-									  //Interpolation
-					interpolation();
-				}
+			if (patoZ > -26 ) {
+				recorrido1Pato = false;
+				recorrido2Pato = true;
+				patoRot = 180.0f;
 			}
-			else
-			{
-				//Draw animation
-				posX += KeyFrame[playIndex].incX;
-				posY += KeyFrame[playIndex].incY;
-				posZ += KeyFrame[playIndex].incZ;
-
-				rotRodIzq += KeyFrame[playIndex].rotInc;
-
-				i_curr_steps++;
-			}
-
 		}
+
+		if (recorrido2Pato) {
+			patoZ -= 0.05f;
+
+			if (patoZ < -34) {
+				recorrido2Pato = false;
+				recorrido1Pato = true;
+				patoRot = 0.0f;
+			}
+		}
+
+
 	}
+
+	//movimiento de caracol
+	if (circuitoCaracol) {
+		if (recorrido1Caracol) {
+			caracolX += 0.05f;
+
+
+			if (caracolX > 10) {
+				recorrido1Caracol = false;
+				recorrido2Caracol = true;
+				caracolRot = 90.0f;
+			}
+		}
+
+		if (recorrido2Caracol) {
+			caracolZ -= 0.05f;
+
+			if (caracolZ < -30) {
+				recorrido2Caracol = false;
+				recorrido3Caracol = true;
+				caracolRot = 180.0f;
+			}
+		}
+
+		if (recorrido3Caracol) {
+			caracolX -= 0.05f;
+
+
+			if (caracolX < -29) {
+				recorrido3Caracol = false;
+				recorrido4Caracol = true;
+				caracolRot = 270.0f;
+			}
+		}
+
+		if (recorrido4Caracol) {
+			caracolZ += 0.05f;
+
+			if (caracolZ > 51) {
+				recorrido4Caracol = false;
+				recorrido1Caracol = true;
+				caracolRot = 0.0f;
+			}
+		}
+
+	}
+
+
+
+
+		//Movimiento del p
+
+	if (playB)
+	{
+		if (i_curr_steps >= i_max_steps) //end of animation between frames?
+		{
+			playIndex++;
+			if (playIndex > MAX_FRAMES_BMO - 2)	//end of total animation?
+			{
+				printf("termina anim\n");
+				playIndex = 0;
+				playB = false;
+			}
+			else //Next frame interpolations
+			{
+				i_curr_steps = 0; //Reset counter
+									//Interpolation
+				interpolation();
+			}
+		}
+		else
+		{
+			//Draw animation
+			/*posX += KeyFrame[playIndex].incX;
+			posY += KeyFrame[playIndex].incY;
+			posZ += KeyFrame[playIndex].incZ;*/
+
+			rotPiernaIzqBmo += KeyFrameBMO[playIndex].rotIncPiernaIzqBmo;
+			rotPiernaDerBmo += KeyFrameBMO[playIndex].rotIncPiernaDerBmo;
+			rotBrazoDerBmo += KeyFrameBMO[playIndex].rotIncBrazoDerBmo;
+			rotBrazoIzqBmo += KeyFrameBMO[playIndex].rotIncBrazoIzqBmo;
+
+			i_curr_steps++;
+		}
+
+	}
+
+}
 
 
 // Is called whenever a key is pressed/released via GLFW
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
 {
-	if (keys[GLFW_KEY_L])
+	if (keys[GLFW_KEY_B])
 	{
-		if (play == false && (FrameIndex > 1))
+		
+		
+		if (playB == false && (FrameIndexBMO > 1))
 		{
-
+			
 			resetElements();
 			//First Interpolation				
 			interpolation();
 
-			play = true;
+			playB = true;
 			playIndex = 0;
 			i_curr_steps = 0;
 		}
 		else
 		{
-			play = false;
+			
+			playB = false;
 		}
 
 	}
 
 	if (keys[GLFW_KEY_K])
 	{
-		if (FrameIndex<MAX_FRAMES)
+	/*	if (FrameIndex<MAX_FRAMES)
 		{
 			saveFrame();
-		}
+		}*/
 
 	}
 
@@ -774,26 +1019,15 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 void DoMovement()
 {
 
-	if (keys[GLFW_KEY_1])
-	{
-
-		rot += 1;
-
+	if (keys[GLFW_KEY_P]) {
+		circuitoPato = true;
 	}
 
-	if (keys[GLFW_KEY_2])
-	{
-		if (rotRodIzq<80.0f)
-			rotRodIzq += 1.0f;
-			
+	if (keys[GLFW_KEY_C]) {
+		circuitoCaracol = true;
 	}
 
-	if (keys[GLFW_KEY_3])
-	{
-		if (rotRodIzq>-45)
-			rotRodIzq -= 1.0f;
-		
-	}
+	
 
 	
 

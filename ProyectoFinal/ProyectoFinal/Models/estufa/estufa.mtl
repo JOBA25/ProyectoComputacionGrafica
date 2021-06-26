@@ -67,6 +67,13 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd metal_generar_estufa.jpg
 Ni 1.00
+newmtl lambert13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
 newmtl pasted__lambert2SG
 illum 4
 Kd 0.00 0.00 0.00
@@ -88,7 +95,35 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd metal_generar_estufa.jpg
 Ni 1.00
+newmtl pasted__lambert13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
+newmtl pasted__lambert13SG1
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
 newmtl pasted__pasted__lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
+newmtl pasted__pasted__lambert13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
+newmtl pasted__pasted__lambert13SG1
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -102,11 +137,32 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd metal_negro.jpg
 Ni 1.00
+newmtl pasted__pasted__pasted__lambert13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
+newmtl pasted__pasted__pasted__lambert13SG1
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
+Ni 1.00
 newmtl pasted__pasted__pasted__pasted__lambert2SG
 illum 4
 Kd 0.13 0.13 0.14
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl pasted__pasted__pasted__pasted__lambert13SG1
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_negro.jpg
 Ni 1.00
 newmtl pasted__pasted__pasted__pasted__pasted__lambert2SG
 illum 4
