@@ -41,36 +41,32 @@ GLfloat lastX = WIDTH / 2.0;
 GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
 bool firstMouse = true;
-float range = 0.0f;
-//float rot = 0.0f;
 
 
 // Light attributes
 glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
-glm::vec3 PosIni(0.0f, 0.0f, 0.0f);
-bool active;
 
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
-// Keyframes
+// variables usadas para las animaciones de Keyframes
 float rotPiernaIzqBmo = 0, rotPiernaDerBmo = 0, rotBrazoIzqBmo = 0, rotBrazoDerBmo = 0;
 
+glm::vec3 PosIni(0.0f, 0.0f, 0.0f);
 float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z;
 float rotPiernaIzqFinn = 0, rotPiernaDerFinn = 0;
 float rot = 0, posXPiDe = -0.7, posZPiDe = 0;
 float posXPiIz = 0.7, posZPiIz = 0;
+bool animFinn = true;
 
-
-
-#define MAX_FRAMES_BMO 4 // 3 keyframes por extremidad
+//máximo de posiciones
+#define MAX_FRAMES_BMO 4 
 #define MAX_FRAMES_FINN 13
 
 
 int i_max_steps = 190;
-
 int i_curr_steps = 0;
 int i_curr_steps_f = 0;
 
@@ -133,10 +129,10 @@ int playIndexF = 0;
 
 // Positions of the point lights
 glm::vec3 pointLightPositions[] = {
-	glm::vec3(posX,posY,posZ),
-	glm::vec3(0,0,0),
-	glm::vec3(0,0,0),
-	glm::vec3(0,0,0)
+	glm::vec3(27.0f,15.0f,0.0f),
+	glm::vec3(-30.0f,15.0f,54.0f),
+	glm::vec3(-30.0f,15.0f,-25.0f),
+	glm::vec3(27.0f,15.0f,-29.0f)
 };
 
 glm::vec3 LightP1;
@@ -172,7 +168,9 @@ bool recorrido3Hotcake = false;
 
 
 
-
+//se salvan las posiciones de los personajes BMO y Finn
+//se salva el tope de animaciones por personaje con sus respectivos
+//FrameIndex
 void saveFrame(void)
 {
 	KeyFrameBMO[0].rotPiernaIzqBmo = 0;
@@ -347,22 +345,7 @@ void interpolation(void)
 	KeyFrameBMO[playIndex].rotIncBrazoDerBmo = (KeyFrameBMO[playIndex + 1].rotBrazoDerBmo - KeyFrameBMO[playIndex].rotBrazoDerBmo) / i_max_steps;
 }
 
-void resetElementsF(void)
-{
-	posX             = KeyFrameFinn[0].posX;
-	posZ             = KeyFrameFinn[0].posZ;
 
-	posXPiDe         = KeyFrameFinn[0].posXPiDe;
-	posZPiDe         = KeyFrameFinn[0].posZPiDe;
-	posXPiIz         = KeyFrameFinn[0].posXPiDe;
-	posZPiIz         = KeyFrameFinn[0].posZPiDe;
-
-	rotPiernaIzqFinn = KeyFrameFinn[0].rotPiernaIzqFinn;
-	rotPiernaDerFinn = KeyFrameFinn[0].rotPiernaDerFinn;
-	
-	rot = KeyFrameFinn[0].rot;
-
-}
 
 void interpolacionF(void) {
 	KeyFrameFinn[playIndexF].incX                = (KeyFrameFinn[playIndexF + 1].posX             - KeyFrameFinn[playIndexF].posX)             / i_max_steps;    
@@ -380,17 +363,14 @@ void interpolacionF(void) {
 int main()
 {
 	// Init GLFW
-	glfwInit();
-	// Set all the required options for GLFW
-	/*(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);*/
+	glfwInit(); //inciciacion de la ventana
+	
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Practica 11", nullptr, nullptr);
+	//Ininiciación de la ventana con ancho, alto, nombre de la ventana c
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Proyecto Final Barcenas Jorge", nullptr, nullptr);
 
+	//se revisa si la existe algun error y en caso de que lo haya se manda un mensaje de error a la consola
 	if (nullptr == window)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -401,6 +381,7 @@ int main()
 
 	glfwMakeContextCurrent(window);
 
+	//se manda la información al buffer para que pinte la ventana
 	glfwGetFramebufferSize(window, &SCREEN_WIDTH, &SCREEN_HEIGHT);
 
 	// Set the required callback functions
@@ -413,7 +394,10 @@ int main()
 
 	// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
 	glewExperimental = GL_TRUE;
+
+
 	// Initialize GLEW to setup the OpenGL Function pointers
+	//se verifica si existe error con GLEW
 	if (GLEW_OK != glewInit())
 	{
 		std::cout << "Failed to initialize GLEW" << std::endl;
@@ -541,7 +525,8 @@ int main()
 		-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f
 	};
 
-
+	//vertices usados para la creación del cubo con el cual 
+	//texturizaremos el ambiente por medio de skybox
 	GLfloat skyboxVertices[] = {
 		// Positions
 		-1.0f,  1.0f, -1.0f,
@@ -662,7 +647,7 @@ int main()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT,GL_FALSE, 3 * sizeof(GLfloat), (GLvoid *)0);
 
-	// Load textures
+	// arreglo de caras del cubo
 	vector<const GLchar*> faces;
 	faces.push_back("SkyBox/left.tga");
 	faces.push_back("SkyBox/right.tga");
@@ -671,8 +656,8 @@ int main()
 	faces.push_back("SkyBox/back.tga");
 	faces.push_back("SkyBox/front.tga");
 	
+	//se manda a la biblioteca a texturizar y se carge en memoria
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
-
 	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 1000.0f);
 
 	// Game loop
@@ -716,9 +701,9 @@ int main()
 
 		// Point light 1
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), LightP1.x, LightP1.y, LightP1.z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), LightP1.x, LightP1.y, LightP1.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.05f, 0.05f, 0.05f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"), 0.032f);
@@ -727,27 +712,27 @@ int main()
 
 		// Point light 2
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].position"), pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 1.0f, 1.0f, 1.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].ambient"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 0.05f, 0.05f, 0.05f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].quadratic"), 0.032f);
 
 		// Point light 3
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].position"), pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse"), 1.0f, 1.0f, 1.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].specular"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].ambient"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].specular"), 0.05f, 0.05f, 0.05f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].quadratic"), 0.032f);
 
 		// Point light 4
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].position"), pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse"), 1.0f, 1.0f, 1.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].specular"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].ambient"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].specular"), 0.05f, 0.05f, 0.05f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].quadratic"), 0.032f);
@@ -876,7 +861,7 @@ int main()
 		//Lava Manos
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
-		model = glm::translate(tmp, glm::vec3(26.0f, -1.0f, -37.9f));
+		model = glm::translate(tmp, glm::vec3(26.0f, -2.0f, -37.9f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		LavaManos.Draw(lightingShader);
@@ -1213,7 +1198,7 @@ void animacion()
 
 
 	//Movimiento del personaje Finn
-	if (playF)
+	if (playF and animFinn)
 	{
 		if (i_curr_steps_f >= i_max_steps)
 		{
@@ -1223,6 +1208,7 @@ void animacion()
 				printf("termina anim\n");
 				playIndexF = 0;
 				playF = false;
+				animFinn = false;
 			}
 			else
 			{
@@ -1322,14 +1308,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		}
 	}
 
-	if (keys[GLFW_KEY_SPACE])
-	{
-		active = !active;
-		if (active)
-			LightP1 = glm::vec3(1.0f, 0.0f, 0.0f);
-		else
-			LightP1 = glm::vec3(0.0f, 0.0f, 0.0f);
-	}
+	
 }
 
 void MouseCallback(GLFWwindow *window, double xPos, double yPos)
