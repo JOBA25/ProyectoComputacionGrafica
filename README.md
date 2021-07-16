@@ -1,4 +1,4 @@
-##Proyecto Final del curso Computación Gráfica.
+## Proyecto Final del curso Computación Gráfica.
 Este repositorio será usado para llevar un control y guardar los archivos usados para el Proyecto Final del alumno [Jorge Octavio Barcenas Avelar](https://github.com/JOBA25)
 
 [Manual de Usuario](https://github.com/JOBA25/ProyectoComputacionGrafica/blob/main/Manuales%20y%20Documentos/Manual%20de%20Usuario.pdf)
