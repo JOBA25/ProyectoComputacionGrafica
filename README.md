@@ -5,6 +5,8 @@ Este repositorio será usado para llevar un control y guardar los archivos usado
 
 [Manual Técnico](https://github.com/JOBA25/ProyectoComputacionGrafica/blob/main/Manuales%20y%20Documentos/Manual%20Tecnico.pdf)
 
+[Documento de Requerimentos de Software](https://github.com/JOBA25/ProyectoComputacionGrafica/blob/main/Manuales%20y%20Documentos/Documento%20de%20Requerimientos%20de%20Software.pdf)
+
 [Carpeta con archivos necesarios para utilizar el archivo ejecutable](https://github.com/JOBA25/ProyectoComputacionGrafica/tree/main/Ejecutable)
 
 [Archivos y carpetas necesarias para visualizar el código en Visual Studio 2019](https://github.com/JOBA25/ProyectoComputacionGrafica/tree/main/ProyectoFinal)
